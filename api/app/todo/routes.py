@@ -6,10 +6,6 @@ from app.todo.models import Todo
 from app.auth.routes import login_required
 
 
-@blueprint.route('/test')
-def test_todo():
-    return "ngon"
-
 class TodoAPI(MethodView):
 
     @login_required()
@@ -39,7 +35,7 @@ class TodoAPI(MethodView):
                 db.session.add(new_todo)
                 db.session.commit()
 
-                return jsonify({'message': 'Successful!'})
+                return jsonify({'message': 'Successful!', 'todo': new_todo.to_dict()})
             
             else:
                 

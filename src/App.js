@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect} from 'react';
+import Header from './components/Header';
+import TodoPage from './pages/TodoPage';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import SigninPage from './pages/SigninPage';
+import SignupPage from './pages/SignupPage';
+import LogoutPage from './pages/LogoutPage';
+import {useDispatch, useSelector} from 'react-redux';
+import {get_user} from './redux/reducer/user/action';
 
 function App() {
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user);
+  useEffect(() => {
+    dispatch(get_user());
+  }, [])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Header />
+        <div className="content">
+          <Switch>
+            <Route exact path="/" component={TodoPage} />
+            <Route exact path="/signin" component={SigninPage} />
+            <Route exact path="/signup" component={SignupPage} />
+            <Route exact path="/logout" component={LogoutPage} />
+          </Switch>
+        </div>
+      </div>
+    </Router>
   );
 }
-
 export default App;
